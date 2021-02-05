@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import Welcome from "./components/welcome/Welcome";
@@ -12,10 +12,6 @@ import PageNotFound from "./components/pageNotFound/PageNotFound";
 function App() {
   return (
     <div className="App">
-      {/* Before Routing Assessment
-      <Welcome name="Evelyn" />
-      <Clock />
-      <Contact /> */}
       <Navigation />
       <Switch>
         <Route
@@ -27,8 +23,7 @@ function App() {
         <Route path="/contact" component={Contact} />
         <Route path="/jeopardy" component={Jeopardy} />
         <Route path="/welcome/:name" component={Welcome} />
-        <Route path="/404" component={PageNotFound} />
-        <Redirect to="/404" />
+        <Route component={PageNotFound} />
       </Switch>
     </div>
   );

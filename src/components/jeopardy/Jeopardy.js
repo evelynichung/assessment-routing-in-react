@@ -11,6 +11,9 @@ class Jeopardy extends Component {
     this.state = {
       data: {},
       score: 0,
+      formData: {
+        answer: "",
+      },
     };
   }
 
@@ -22,6 +25,38 @@ class Jeopardy extends Component {
       });
     });
   }
+
+  //allow for user input in textbox
+  handleChange = (event) => {
+    const formData = { ...this.state.formData };
+    formData[event.target.name] = event.target.value;
+
+    this.setState({ formData });
+  };
+
+  //button functionality
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("handleSubmit");
+    if (this.state.formData.answer === this.state.data.answer) {
+      console.log("Match");
+      this.setState((state, props) => ({
+        score: state.score + state.data.value,
+        formData: {
+          answer: "",
+        },
+      }));
+    } else {
+      console.log("No Match");
+      this.setState((state, props) => ({
+        score: state.score - state.data.value,
+        formData: {
+          answer: "",
+        },
+      }));
+    }
+    this.getNewQuestion();
+  };
 
   //when the component mounts, get a the first question
   componentDidMount() {
@@ -40,8 +75,29 @@ class Jeopardy extends Component {
     }
     return (
       <div>
+        <div>Category: {this.state.data.category.title}</div>
+        <br />
         <div>Question: {this.state.data.question}</div>
         {/* {JSON.stringify(this.state.data)} */}
+        <br />
+        <div>
+          Points: {this.state.data.value} Score: {this.state.score}
+        </div>
+        <br />
+        <div></div>
+
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="answer">Answer:</label>
+            <input
+              type="text"
+              name="answer"
+              value={this.state.formData.answer}
+              onChange={this.handleChange}
+            />
+          </div>
+          <button>Submit</button>
+        </form>
       </div>
     );
   }
