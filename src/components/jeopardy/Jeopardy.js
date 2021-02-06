@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import JeopardyDisplay from "../../pages/JeopardyDisplay";
 
 //import our service
 import JeopardyService from "../../jeopardyService";
@@ -40,7 +41,7 @@ class Jeopardy extends Component {
     console.log("handleSubmit");
     if (this.state.formData.answer === this.state.data.answer) {
       console.log("Match");
-      this.setState((state, props) => ({
+      this.setState((state) => ({
         score: state.score + state.data.value,
         formData: {
           answer: "",
@@ -48,13 +49,14 @@ class Jeopardy extends Component {
       }));
     } else {
       console.log("No Match");
-      this.setState((state, props) => ({
+      this.setState((state) => ({
         score: state.score - state.data.value,
         formData: {
           answer: "",
         },
       }));
     }
+
     this.getNewQuestion();
   };
 
@@ -74,31 +76,15 @@ class Jeopardy extends Component {
       );
     }
     return (
-      <div>
-        <div>Category: {this.state.data.category.title}</div>
-        <br />
-        <div>Question: {this.state.data.question}</div>
-        {/* {JSON.stringify(this.state.data)} */}
-        <br />
-        <div>
-          Points: {this.state.data.value} Score: {this.state.score}
-        </div>
-        <br />
-        <div></div>
-
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="answer">Answer:</label>
-            <input
-              type="text"
-              name="answer"
-              value={this.state.formData.answer}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button>Submit</button>
-        </form>
-      </div>
+      <JeopardyDisplay
+        question={this.state.data.question}
+        category={this.state.data.category.title}
+        value={this.state.data.value}
+        score={this.state.score}
+        answer={this.state.answer}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
